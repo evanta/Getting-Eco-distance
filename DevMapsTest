@@ -2,7 +2,7 @@
 let origin = "Disneyland";
 let destination = "Fordham+University"; 
 let dist = null;
-let apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=AIzaSyAFEp07QZ5-s-CjcgGaKih52ASKFq4JAzQ`
+let apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=APIKEY`
 */
 /*
 fetch(apiUrl)
