@@ -1,0 +1,41 @@
+/*
+let origin = "Disneyland";
+let destination = "Fordham+University"; 
+let dist = null;
+let apiUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=AIzaSyAFEp07QZ5-s-CjcgGaKih52ASKFq4JAzQ`
+*/
+/*
+fetch(apiUrl)
+    .then((response) => response.json())
+    .then(data => console.log (data.routes[0].legs[0].distance.text))
+    .catch((error) => console.error("Unable to fetch data:", error)); 
+*/
+
+let origin = "Columbia+university";
+let destination = "Fordham+University";
+let mode = "driving"
+
+async function getDistance() {
+    let dist = null; // Using null instead of -1 for clarity
+
+    try {
+        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?destination=${destination}&mode=${mode}&origin=${origin}&key=APIKEY`);
+        const data = await response.json();
+
+        // Set 'dist' equal to the specified distance text
+        dist = data.routes[0].legs[0].distance.text;
+        //console.log("Distance:", dist);
+    } catch (error) {
+        console.error("Unable to fetch data:", error);
+    }
+
+    return dist;
+}
+
+// Call the async function and handle the result
+getDistance().then(distanceValue => {
+    // 'distanceValue' now contains the distance value
+    console.log("Distance Value:", distanceValue);
+});
+
+//console.log("for real this time: " + dist); 
