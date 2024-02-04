@@ -13,13 +13,21 @@ fetch(apiUrl)
 
 let origin = "Columbia+university";
 let destination = "Fordham+University";
-let mode = "driving"
+let mode = "walking"
+
+const coefficients = {
+    driving: 0.709888,   // Example coefficient for driving
+    walking: 0.001,  // Example coefficient for walking
+    biking: 0.046120705,     // Example coefficient for biking
+    transit: 0.4285
+};
 
 async function getDistance() {
     let dist = null; // Using null instead of -1 for clarity
+    let co2eExpended = null;
 
     try {
-        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?destination=${destination}&mode=${mode}&origin=${origin}&key=APIKEY`);
+        const response = await fetch(`https://maps.googleapis.com/maps/api/directions/json?destination=${destination}&mode=${mode}&origin=${origin}&key=AIzaSyA_D_HAQ9DSL_7hS9gcfXyg4i16gpnOOfk`);
         const data = await response.json();
 
         // Set 'dist' equal to the specified distance text
@@ -29,13 +37,27 @@ async function getDistance() {
         console.error("Unable to fetch data:", error);
     }
 
-    return dist;
+    return { distance: dist, co2eExpended };
 }
 
-// Call the async function and handle the result
-getDistance().then(distanceValue => {
-    // 'distanceValue' now contains the distance value
-    console.log("Distance Value:", distanceValue);
-});
 
+
+// Call the async function and handle the result
+getDistance().then(({ distance, co2eExpended }) => {
+
+    // Convert distance from string to number (remove " mi" suffix)
+    const distanceValue = parseFloat(distance.replace(" mi", ""));
+    
+    // Use the appropriate coefficient based on the mode of transportation
+    const coefficient = coefficients[mode] || 0;
+
+    // Calculate CO2E saved (example formula, you may need to adjust based on your data)
+    co2eExpended = distanceValue * coefficient;
+
+    co2eSaved = (distanceValue * 0.709888) - co2eExpended;
+    // 'distance' and 'co2eSaved' now contain the distance and CO2E values
+    console.log("Distance Value:", distance);
+    console.log("CO2E Expended:", co2eExpended);
+    console.log("CO2E Saved: ", co2eSaved);
+});
 //console.log("for real this time: " + dist); 
